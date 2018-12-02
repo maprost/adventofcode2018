@@ -2,18 +2,15 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"strconv"
 	"strings"
+
+	"github.com/maprost/adventofcode2018/golib"
 )
 
 func main() {
-	b, err := ioutil.ReadFile("day01/task02/go/numbers.txt")
-	if err != nil {
-		panic(err)
-	}
+	numbers := golib.Read("day01/task02/go/numbers.txt")
 
-	numbers := strings.Split(string(b), "\n")
 	set := make(map[int]struct{})
 	sum := 0
 	more := true

@@ -2,18 +2,14 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"strconv"
 	"strings"
+
+	"github.com/maprost/adventofcode2018/golib"
 )
 
 func main() {
-	b, err := ioutil.ReadFile("day01/task01/go/numbers.txt")
-	if err != nil {
-		panic(err)
-	}
-
-	numbers := strings.Split(string(b), "\n")
+	numbers := golib.Read("day01/task01/go/numbers.txt")
 	sum := 0
 
 	for _, number := range numbers {
