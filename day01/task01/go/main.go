@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	b, err := ioutil.ReadFile("day01/task01/go/numbers.txt") // just pass the file name
+	b, err := ioutil.ReadFile("day01/task01/go/numbers.txt")
 	if err != nil {
 		panic(err)
 	}
