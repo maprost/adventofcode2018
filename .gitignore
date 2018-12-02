@@ -1,0 +1,7 @@
+﻿################################################################################
+# Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
+################################################################################
+
+/.vs/slnx.sqlite
+/.vs/config/applicationhost.config
+/.vs/adventofcode2018/v15/.suo
