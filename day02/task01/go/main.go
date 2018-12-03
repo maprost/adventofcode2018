@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	ids := golib.Read("day02/task01/go/ids.txt")
+	ids := golib.Read("day02/task01/input_6916.txt")
 	twoTimes := 0
 	threeTimes := 0
 
@@ -34,8 +34,6 @@ func main() {
 				break
 			}
 		}
-
-		fmt.Println()
 	}
 
 	fmt.Printf("CheckSum: %d*%d = %d", twoTimes, threeTimes, twoTimes*threeTimes)

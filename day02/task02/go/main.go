@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	ids := golib.Read("day02/task02/go/ids.txt")
+	ids := golib.Read("day02/task02/input_oeylbtcxjqnzhgyylfapviusr.txt")
 
 	for index1, id1 := range ids {
 		for index2 := index1; index2 < len(ids); index2++ {
