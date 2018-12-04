@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	numbers := golib.Read("day01/task02/go/numbers.txt")
+	numbers := golib.Read("day01/task02/input_70357.txt")
 
 	set := make(map[int]struct{})
 	sum := 0

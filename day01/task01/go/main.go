@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	numbers := golib.Read("day01/task01/go/numbers.txt")
+	numbers := golib.Read("day01/task01/input_490.txt")
 	sum := 0
 
 	for _, number := range numbers {
