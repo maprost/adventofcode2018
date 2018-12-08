@@ -19,5 +19,6 @@ while True:
             if elem == summe:
                 print(summe)
                 print("ja")
+                exit(0)
         sums.append(summe)
     #fobj.close()
