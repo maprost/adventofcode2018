@@ -1,11 +1,33 @@
-package main
+package day08
 
 import (
 	"fmt"
 	"strings"
+	"testing"
 
 	"github.com/maprost/adventofcode2018/golib"
 )
+
+const (
+	input01 = "input01_46829.txt"
+	input02 = "input02_37450.txt"
+)
+
+func TestTask01(t *testing.T) {
+	input, result := golib.Reads(input01)
+	numbers := strings.Split(input[0], " ")
+
+	root, _ := buildNode(numbers, 0)
+	golib.Equal(t, "Sum:", calcMetadata(root), result)
+}
+
+func TestTask02(t *testing.T) {
+	input, result := golib.Reads(input02)
+	numbers := strings.Split(input[0], " ")
+
+	root, _ := buildNode(numbers, 0)
+	golib.Equal(t, "Sum:", calcMetaDataOfEmptyNodes(root), result)
+}
 
 var nodeNumber = 0
 
@@ -17,13 +39,6 @@ type node struct {
 
 func (n node) String() string {
 	return fmt.Sprintf("Node [%d] - c:%d m:%v", n.number, len(n.children), n.metadata)
-}
-
-func main() {
-	numbers := strings.Split(golib.Read("day08/task01/input_46829.txt")[0], " ")
-
-	root, _ := buildNode(numbers, 0)
-	fmt.Println("Sum:", trace(root))
 }
 
 func buildNode(numbers []string, index int) (node, int) {
@@ -52,13 +67,36 @@ func buildNode(numbers []string, index int) (node, int) {
 	return n, index
 }
 
-func trace(n node) int {
+func calcMetadata(n node) int {
 	result := 0
 	for i := 0; i < len(n.children); i++ {
-		result += trace(n.children[i])
+		result += calcMetadata(n.children[i])
 	}
 	for i := 0; i < len(n.metadata); i++ {
 		result += n.metadata[i]
 	}
+	return result
+}
+
+func calcMetaDataOfEmptyNodes(n node) int {
+	fmt.Println(n.String())
+
+	result := 0
+
+	if len(n.children) == 0 {
+		for i := 0; i < len(n.metadata); i++ {
+			result += n.metadata[i]
+		}
+
+	} else {
+		for i := 0; i < len(n.metadata); i++ {
+			childIndex := n.metadata[i] - 1
+
+			if childIndex >= 0 && childIndex < len(n.children) {
+				result += calcMetaDataOfEmptyNodes(n.children[childIndex])
+			}
+		}
+	}
+
 	return result
 }

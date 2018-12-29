@@ -1,6 +1,9 @@
 package golib
 
-import "strconv"
+import (
+	"math"
+	"strconv"
+)
 
 func ToInt(s string) int {
 	i, e := strconv.Atoi(s)
@@ -8,4 +11,8 @@ func ToInt(s string) int {
 		panic(e)
 	}
 	return i
+}
+
+func IntAbs(i int) int {
+	return int(math.Abs(float64(i)))
 }

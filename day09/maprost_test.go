@@ -1,12 +1,28 @@
-package main
+package day09
 
 import (
 	"fmt"
 	"strconv"
 	"strings"
+	"testing"
 
 	"github.com/maprost/adventofcode2018/golib"
 )
+
+const (
+	input01 = "input01_439089.txt"
+	input02 = "input02_3668541094.txt"
+)
+
+func TestTask01(t *testing.T) {
+	doIt(t, input01)
+}
+
+func TestTask02(t *testing.T) {
+	doIt(t, input02)
+}
+
+// ================== program =============================
 
 type ringNode struct {
 	value int
@@ -14,8 +30,9 @@ type ringNode struct {
 	right *ringNode
 }
 
-func main() {
-	in := golib.Read("day09/task01/input_439089.txt")[0]
+func doIt(t testing.TB, file string) {
+	input, result := golib.Reads(file)
+	in := input[0]
 	inArr := strings.Split(in, " players; last marble is worth ")
 
 	player := golib.ToInt(inArr[0])
@@ -74,7 +91,7 @@ func main() {
 			maxScore = score
 		}
 	}
-	fmt.Println(maxScore)
+	golib.Equal(t, "MaxScore: ", maxScore, result)
 }
 
 func ring(root *ringNode) string {

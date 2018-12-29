@@ -1,24 +1,49 @@
-package main
+package day05
 
 import (
-	"fmt"
 	"strings"
+	"testing"
 
 	"github.com/maprost/adventofcode2018/golib"
 )
 
 const (
-	a = 'a'
-	A = 'A'
+	a       = 'a'
+	A       = 'A'
+	input01 = "input01_9370.txt"
+	input02 = "input02_6390.txt"
 )
 
 var (
 	offset = uint8(a - A)
 )
 
-func main() {
-	code := golib.Read("day05/task02/input_6390.txt")[0]
+func TestTask01(t *testing.T) {
+	codes, result := golib.Reads(input01)
+	code := codes[0]
 
+	for {
+		replacer := make([]string, 0)
+		for i := 0; i < len(code)-1; i++ {
+			if code[i] == (code[i+1]+offset) || code[i]+offset == code[i+1] {
+				replacer = append(replacer, string(code[i])+string(code[i+1]))
+			}
+		}
+
+		if len(replacer) == 0 {
+			break
+		}
+
+		for _, r := range replacer {
+			code = strings.Replace(code, r, "", 1)
+		}
+	}
+	golib.Equal(t, "Len(code): ", len(code), result)
+}
+
+func TestTask02(t *testing.T) {
+	codes, result := golib.Reads(input02)
+	code := codes[0]
 	minSize := len(code)
 
 	for i := 'a'; i <= 'z'; i++ {
@@ -49,6 +74,5 @@ func main() {
 			minSize = len(rCode)
 		}
 	}
-
-	fmt.Println("min Len(rCode): ", minSize)
+	golib.Equal(t, "min Len(rCode): ", minSize, result)
 }

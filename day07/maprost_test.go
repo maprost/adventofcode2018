@@ -1,11 +1,17 @@
-package main
+package day07
 
 import (
 	"fmt"
 	"sort"
 	"strings"
+	"testing"
 
 	"github.com/maprost/adventofcode2018/golib"
+	"github.com/maprost/testbox/must"
+)
+
+const (
+	input01 = "input01_FHICMRTXYDBOAJNPWQGVZUEKLS.txt"
 )
 
 type Node struct {
@@ -54,8 +60,8 @@ func (n *Nodes) sort(finishNodes map[string]struct{}) {
 	})
 }
 
-func main() {
-	orders := golib.Read("day07/task01/input_FHICMRTXYDBOAJNPWQGVZUEKLS.txt")
+func TestTask01(t *testing.T) {
+	orders, result := golib.Reads(input01)
 	nodes := make(NodeMap)
 
 	for _, order := range orders {
@@ -83,10 +89,11 @@ func main() {
 
 	// trace
 	possibleNodes.sort(finishNodes)
+	route := ""
 
 	for len(possibleNodes) > 0 {
 		currentNode := possibleNodes[0]
-		fmt.Print(currentNode.name)
+		route += currentNode.name
 
 		possibleNodes = possibleNodes[1:]
 		finishNodes[currentNode.name] = struct{}{}
@@ -100,7 +107,9 @@ func main() {
 
 		possibleNodes.sort(finishNodes)
 	}
-	fmt.Println()
+
+	fmt.Println("Route: ", route)
+	must.BeEqual(t, route, result)
 }
 
 func split(in string) (target, source string) {

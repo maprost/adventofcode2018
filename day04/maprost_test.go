@@ -1,14 +1,70 @@
-package main
+package day04
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 	"strings"
+	"testing"
 	"time"
 
 	"github.com/maprost/adventofcode2018/golib"
 )
+
+const (
+	input01 = "input01_101194.txt"
+	input02 = "input02_102095.txt"
+)
+
+func TestTask01(t *testing.T) {
+	actions, result := golib.Reads(input01)
+	guardMap := calculateGuardMap(actions)
+
+	// find biggest duration
+	var maxDuration time.Duration
+	var bestSleeperGuard int
+
+	for guard, dInfo := range guardMap {
+		if dInfo.duration > maxDuration {
+			bestSleeperGuard = guard
+			maxDuration = dInfo.duration
+		}
+	}
+
+	// find highest marked time
+	maxTime := 0
+	minute := 0
+	for m, t := range guardMap[bestSleeperGuard].markedTimes {
+		if t > maxTime {
+			minute = m
+			maxTime = t
+		}
+	}
+
+	sleepingMinutes := bestSleeperGuard * minute
+	golib.Equal(t, "Best Sleeper:", sleepingMinutes, result)
+}
+
+func TestTask02(t *testing.T) {
+	actions, result := golib.Reads(input02)
+	guardMap := calculateGuardMap(actions)
+
+	// find guard with most sleep at a time
+	maxTimes := 0
+	minute := 0
+	bestSleeperGuard := 0
+	for g, dInfo := range guardMap {
+		for m, t := range dInfo.markedTimes {
+			if t > maxTimes {
+				bestSleeperGuard = g
+				minute = m
+				maxTimes = t
+			}
+		}
+	}
+
+	sleepingMinutes := bestSleeperGuard * minute
+	golib.Equal(t, "Best Sleeper:", sleepingMinutes, result)
+}
 
 type Action struct {
 	time   time.Time
@@ -20,8 +76,7 @@ type DurationInfo struct {
 	markedTimes []int
 }
 
-func main() {
-	actions := golib.Read("day04/task02/input_102095.txt")
+func calculateGuardMap(actions []string) map[int]DurationInfo {
 	actionList := make([]Action, 0, len(actions))
 
 	// prepare
@@ -50,7 +105,7 @@ func main() {
 	guardMap := make(map[int]DurationInfo)
 
 	for _, action := range actionList {
-		fmt.Println(action.time, " - ", action.action)
+		golib.Debugln(action.time, " - ", action.action)
 
 		if strings.HasPrefix(action.action, "Guard") {
 			idStr := strings.TrimPrefix(strings.TrimSuffix(action.action, " begins shift"), "Guard #")
@@ -89,20 +144,5 @@ func main() {
 		}
 	}
 
-	// find guard with most sleep at a time
-	maxTimes := 0
-	minute := 0
-	bestSleeperGuard := 0
-	for g, dInfo := range guardMap {
-		for m, t := range dInfo.markedTimes {
-			if t > maxTimes {
-				bestSleeperGuard = g
-				minute = m
-				maxTimes = t
-			}
-		}
-	}
-
-	fmt.Printf("Best Sleeper: %d, %d min (%dx) (%d)\n",
-		bestSleeperGuard, minute, maxTimes, bestSleeperGuard*minute)
+	return guardMap
 }
